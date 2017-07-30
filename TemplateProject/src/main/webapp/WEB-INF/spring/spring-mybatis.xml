@@ -18,14 +18,14 @@
     http://www.springframework.org/schema/cache/spring-cache.xsd
     http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
-	
-    <context:property-placeholder location="classpath:application.properties"/>
+
+    <tx:annotation-driven/>
+    
+    <context:property-placeholder location="classpath:application.properties"  />
     
     <context:component-scan base-package="pe.fap.hospital.*"/>
 
     <context:annotation-config/>
-
-    <tx:annotation-driven/>
 
 <!--     <cache:annotation-driven/> -->
 
