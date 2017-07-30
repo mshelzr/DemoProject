@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.fap.hospital.citamedica.dao.CitaDAO">
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />-->
+    <!--<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>-->
+    <select id="findAccountsById" resultType="pe.fap.hospital.citamedica.model.Account">
+    <![CDATA[
+            SELECT  id as id,
+			 name as name,
+			 money as money
+			 FROM account
+			 WHERE
+			 id >= #{id}
+        ]]>
+  </select>
+    <select id="getAccountById" parameterType="int"
+            resultType="pe.fap.hospital.citamedica.model.Account">
+    <![CDATA[
+            SELECT  id as id,name as name,money as money
+			 FROM account
+			 WHERE
+			id = #{id}
+        ]]>
+  </select>
+  <insert id="insertAccount" parameterType="pe.fap.hospital.citamedica.model.Account"
+             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true"> <!--Compatible con Mysql -->
+        	INSERT INTO account (name, money) VALUES (#{name}, #{money})
+<!--         	Sentencia en Oracle -->
+<!--         	INSERT INTO account (id, name, money) VALUES (ACCOUNT_SEQ.nextval, #{name}, #{money}) -->
+  </insert>
+  <update id="updateAccount" parameterType="pe.fap.hospital.citamedica.model.Account">
+		    UPDATE Account
+		    SET name = #{name, jdbcType=VARCHAR},
+		      money = #{money, jdbcType=DOUBLE}
+		    WHERE id = #{id, jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		    DELETE FROM Account
+		    WHERE id = #{id, jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

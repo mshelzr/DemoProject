@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+	
+    <context:property-placeholder location="classpath:application.properties"/>
+    
+    <context:component-scan base-package="pe.fap.hospital.*"/>
+
+    <context:annotation-config/>
+
+    <tx:annotation-driven/>
+
+<!--     <cache:annotation-driven/> -->
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- mapping.xml -->
+        <property name="mapperLocations" value="classpath:pe/fap/hospital/citamedica/mapping/*.xml"></property>
+        <property name="typeAliasesPackage" value="pe.fap.hospital.citamedica.model"/>
+
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="pe.fap.hospital.citamedica.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource">
+        </property>
+    </bean>
+
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="transfer*" propagation="REQUIRED"/>
+            <tx:method name="insert*" propagation="REQUIRED"/>
+            <tx:method name="change*" propagation="REQUIRED"/>
+            <tx:method name="do*" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut
+                expression="execution(* pe.fap.hospital.citamedica.service.impl.*.*(..))"
+                id="txpointcut"/>
+        <aop:advisor advice-ref="txadvice" pointcut-ref="txpointcut"/>
+    </aop:config>
+	<!-- end -->
+    
+	<!-- Begin Web Security -->
+
+	<!-- unsecured resource if needed -->
+<!-- 	<sec:http pattern="/images/**" security="none"/>  -->
+	<sec:http auto-config="true" use-expressions="true">
+	    <!-- configure the roles allowed to access the app -->
+        <sec:intercept-url pattern="/" access="permitAll"/>
+        <sec:intercept-url pattern="/userpage"/>
+<!--         <sec:intercept-url pattern="/list" access="hasRole('Administrators')"/> -->
+	    <!-- add more urls/patters/roles to refine security -->
+	    
+	    <sec:form-login 
+	    		login-page="/login"
+                default-target-url="/userpage"
+                login-processing-url="/j_spring_security_check"
+                authentication-failure-url="/accessdenied"
+                username-parameter="username"
+                password-parameter="password"
+	    	/>
+	    <sec:logout logout-url="/logout" />
+	    <!-- if you are adding to an exiting app, 
+				you may need to disable CSRF protection until you can make application changes. -->
+<!-- 	    <sec:csrf disabled="true"/> -->
+	</sec:http>
+ 
+	<!-- add the properties below to your app's properties file 
+			or replace with hardcoded values to get working -->
+	<sec:ldap-server 
+		id="contextSource" 
+		url="${ldap.url}"
+		manager-dn="${ldap.username}"
+		manager-password="${ldap.password}"/>
+		 
+	<sec:authentication-manager erase-credentials="true">
+		<sec:authentication-provider ref='ldapAuthProvider' />
+	</sec:authentication-manager>
+	 
+	<!-- using bean-based configuration here to set the DefaultLdapAuthoritiesPopulater with 
+		ignorePartialResultsException=true.  This is a known Spring/AD issue and a workaround for it -->
+	<bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+		<constructor-arg>
+			<!-- the bind authenticator will first lookup the user using the service account credentials, then 
+				 attempt to bind the user with their password once found -->
+			<bean id="bindAuthenticator" class="org.springframework.security.ldap.authentication.BindAuthenticator">
+				<constructor-arg ref="contextSource" />
+				<property name="userSearch" ref="userSearch" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator">
+				<constructor-arg ref="contextSource" />
+ 				<constructor-arg value="${ldap.dn}" /> <!--group search base -->
+				<property name="searchSubtree" value="true"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	<bean id="userSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+		<constructor-arg index="0" value="${ldap.dn}" />
+		<constructor-arg index="1" value="(uid={0})" />
+		<constructor-arg index="2" ref="contextSource" />
+		<property name="searchSubtree" value="true" />
+	</bean>
+	<!--  end Web Security -->
+
+</beans>
