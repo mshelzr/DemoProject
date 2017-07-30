@@ -59,7 +59,7 @@
                   </div>
                   <div class="input-group input-sm">
                     <label class="input-group-addon" for="money">Money</label> 
-                    <input type="text" class="form-control" id="money" name="money" required/>
+                    <input type="number" class="form-control" id="money" name="money" required/>
                   </div>
                   <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
                   <div class="form-actions">
