@@ -50,6 +50,7 @@ public class DemoController {
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	public String saveOrUpdate(Account account) {
 
+		System.out.println("account: " + account);
 		this.citaService.updateAccount(account);
 
 		return "redirect:list";

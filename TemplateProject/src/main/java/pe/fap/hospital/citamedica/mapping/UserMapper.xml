@@ -7,7 +7,9 @@
     <![CDATA[
             SELECT  id as id,
 			 name as name,
-			 money as money
+			 lastname as lastname,
+			 dni as dni,
+			 phone as phone
 			 FROM account
 			 WHERE
 			 id >= #{id}
@@ -16,7 +18,7 @@
     <select id="getAccountById" parameterType="int"
             resultType="pe.fap.hospital.citamedica.model.Account">
     <![CDATA[
-            SELECT  id as id,name as name,money as money
+            SELECT  id as id,name as name, lastname as lastname, dni as dni, phone as phone
 			 FROM account
 			 WHERE
 			id = #{id}
@@ -26,12 +28,14 @@
 <!--              keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true"> Compatible con Mysql -->
 <!--         	INSERT INTO account (name, money) VALUES (#{name}, #{money}) -->
 <!--         	Sentencia en Oracle -->
-        	INSERT INTO account (id, name, money) VALUES (ACCOUNT_SEQ.nextval, #{name}, #{money})
+        	INSERT INTO account (id, name, lastname, dni, phone) VALUES (ACCOUNT_SEQ.nextval, #{name}, #{lastname}, #{dni}, #{phone})
   </insert>
   <update id="updateAccount" parameterType="pe.fap.hospital.citamedica.model.Account">
 		    UPDATE Account
 		    SET name = #{name, jdbcType=VARCHAR},
-		      money = #{money, jdbcType=DOUBLE}
+		      lastname = #{lastname, jdbcType=VARCHAR},
+		      dni = #{dni, jdbcType=INTEGER},
+		      phone = #{phone, jdbcType=INTEGER}
 		    WHERE id = #{id, jdbcType=INTEGER}
   </update>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

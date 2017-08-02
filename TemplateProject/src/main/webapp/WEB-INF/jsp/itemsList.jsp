@@ -45,12 +45,17 @@
 
     <div class="container">
 
+	  <h2>CITAS</h2>
+	  <br/>
+
       <!-- Main component for a primary marketing message or call to action -->
       <table class="table">
         <tr>
           <td>ID</td>
-          <td>Nombre</td>
-          <td>Money</td>
+          <td>Nombres</td>
+          <td>Apellidos</td>
+          <td>DNI</td>
+          <td>Celular</td>
           <td></td>
         </tr>
         <c:forEach items="${list}" var="item">
@@ -59,11 +64,17 @@
             <input type="checkbox" name="id" value="${item.id}">
             </td>
             <td>${item.name}</td>
-            <td>${item.money}</td>
+            <td>${item.lastname}</td>
+            <td>${item.dni}</td>
+            <td>${item.phone}</td>
             <td>
-	            <a href="<c:url value="/cita/edit?id=${item.id}"/>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+	            <a href="<c:url value="/cita/edit?id=${item.id}"/>">
+	            	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	            </a>
 	            &nbsp;
-	            <a href="<c:url value="/cita/deleteByID?id=${item.id}"/>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+	            <a href="<c:url value="/cita/deleteByID?id=${item.id}"/>">
+	            	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	            </a>
             </td>
           </tr>
         </c:forEach>

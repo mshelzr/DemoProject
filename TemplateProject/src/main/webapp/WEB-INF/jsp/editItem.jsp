@@ -44,25 +44,44 @@
     </nav>
 
     <div class="container">
-
-      <form id="itemForm" action="<c:url value="/cita/saveOrUpdate"/>" method="post">
-        <input type="hidden" name="id" value="${item.id}" />
-        <table class="table">
-        <tr>
-          <td>Name</td>
-          <td><input type="text" name="name" value="${item.name }"/></td>
-        </tr>
-        <tr>
-          <td>Money</td>
-          <td><input type="text" name="money" value="${item.money}"/></td>
-        </tr>
-        <tr>
-        <td colspan="2" align="center"><input type="submit" value="Enviar"/>
-        </td>
-        </tr>
-        </table>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-      </form>
+    
+	    <div class="row">
+	    
+		    <div class="col-lg-4"></div>
+		    <div class="col-lg-4">
+			    <h2>Creación de Cita</h2>
+			    <br/>
+			    
+				<form name='loginForm' action="<c:url value="/cita/saveOrUpdate"/>" method='POST' class="form-horizontal">
+        		<input type="hidden" name="id" value="${item.id}" />
+	              <div class="input-group input-sm">
+                    <label class="input-group-addon" for="name">Nombres</label>
+                    <input type="text" class="form-control" id="name" name="name" maxlength="50" required value="${item.name}"/>
+                  </div>
+                  <div class="input-group input-sm">
+                    <label class="input-group-addon" for="lastname">Apellidos</label> 
+                    <input type="text" class="form-control" id="lastname" name="lastname" maxlength="50" required value="${item.lastname}"/>
+                  </div>
+                  <div class="input-group input-sm">
+                    <label class="input-group-addon" for="dni">DNI</label> 
+                    <input type="number" class="form-control" id="dni" name="dni" required value="${item.dni}"/>
+                  </div>
+                  <div class="input-group input-sm">
+                    <label class="input-group-addon" for="phone">Celular</label> 
+                    <input type="number" class="form-control" id="phone" name="phone" required value="${item.phone}"/>
+                  </div>
+                  
+                  <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+                  <div class="form-actions">
+                    <input type="submit" name="submit" class="btn btn-block btn-success btn-default" value="Modificar">
+                  </div>
+                </form>
+			      
+			</div>
+			<div class="col-lg-4"></div>
+	
+	      </div>
+      
     </div>
 
     <script src="<c:url value='/static/js/jquery.min.js' />"></script>

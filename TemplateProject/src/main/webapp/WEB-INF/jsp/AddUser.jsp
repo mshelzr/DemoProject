@@ -53,13 +53,22 @@
 			    
 				<form name='loginForm' action="<c:url value="/cita/addUser"/>" method='POST' class="form-horizontal">
 	              <div class="input-group input-sm">
-                    <label class="input-group-addon" for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" required/>
+                    <label class="input-group-addon" for="name">Nombres</label>
+                    <input type="text" class="form-control" id="name" name="name" maxlength="50" required/>
                   </div>
                   <div class="input-group input-sm">
-                    <label class="input-group-addon" for="money">Money</label> 
-                    <input type="number" class="form-control" id="money" name="money" required/>
+                    <label class="input-group-addon" for="lastname">Apellidos</label> 
+                    <input type="text" class="form-control" id="lastname" name="lastname" maxlength="50" required/>
                   </div>
+                  <div class="input-group input-sm">
+                    <label class="input-group-addon" for="dni">DNI</label> 
+                    <input type="number" class="form-control" id="dni" name="dni" required/>
+                  </div>
+                  <div class="input-group input-sm">
+                    <label class="input-group-addon" for="phone">Celular</label> 
+                    <input type="number" class="form-control" id="phone" name="phone" required/>
+                  </div>
+                  
                   <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
                   <div class="form-actions">
                     <input type="submit" name="submit" class="btn btn-block btn-success btn-default" value="Agregar">
