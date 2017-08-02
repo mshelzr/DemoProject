@@ -15,7 +15,6 @@
     <title>Agregar Cita</title>
 
 	<link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 
   </head>
   <body>
@@ -54,8 +53,8 @@
 			    
 				<form name='loginForm' action="<c:url value="/cita/addUser"/>" method='POST' class="form-horizontal">
 	              <div class="input-group input-sm">
-                    <label class="input-group-addon" for="username">Nombre</label>
-                    <input type="text" class="form-control" id="username" name="name" required/>
+                    <label class="input-group-addon" for="name">Nombre</label>
+                    <input type="text" class="form-control" id="name" name="name" required/>
                   </div>
                   <div class="input-group input-sm">
                     <label class="input-group-addon" for="money">Money</label> 

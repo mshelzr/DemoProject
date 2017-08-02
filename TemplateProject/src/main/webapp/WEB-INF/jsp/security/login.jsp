@@ -15,7 +15,6 @@
     <title>Iniciar Sesión</title>
 
 	<link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 
   </head>
   <body>
@@ -48,12 +47,12 @@
 			    
 				<form name='loginForm' action="<c:url value='j_spring_security_check' />" method='POST' class="form-horizontal">
 	              <div class="input-group input-sm">
-                    <label class="input-group-addon" for="username"><i class="fa fa-user"></i></label>
+                    <label class="input-group-addon" for="username"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></label>
                     <input type="text" class="form-control" id="username" name="username" 
                       placeholder="Enter Username" required/>
                   </div>
                   <div class="input-group input-sm">
-                    <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label> 
+                    <label class="input-group-addon" for="password"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></label> 
                     <input type="password" class="form-control" id="password" name="password" 
                       placeholder="Enter Password" required/>
                   </div>

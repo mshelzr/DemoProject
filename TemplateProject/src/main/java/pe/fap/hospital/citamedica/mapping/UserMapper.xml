@@ -22,11 +22,11 @@
 			id = #{id}
         ]]>
   </select>
-  <insert id="insertAccount" parameterType="pe.fap.hospital.citamedica.model.Account"
-             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true"> <!--Compatible con Mysql -->
-        	INSERT INTO account (name, money) VALUES (#{name}, #{money})
+  <insert id="insertAccount" parameterType="pe.fap.hospital.citamedica.model.Account">
+<!--              keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true"> Compatible con Mysql -->
+<!--         	INSERT INTO account (name, money) VALUES (#{name}, #{money}) -->
 <!--         	Sentencia en Oracle -->
-<!--         	INSERT INTO account (id, name, money) VALUES (ACCOUNT_SEQ.nextval, #{name}, #{money}) -->
+        	INSERT INTO account (id, name, money) VALUES (ACCOUNT_SEQ.nextval, #{name}, #{money})
   </insert>
   <update id="updateAccount" parameterType="pe.fap.hospital.citamedica.model.Account">
 		    UPDATE Account

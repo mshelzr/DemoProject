@@ -16,7 +16,6 @@
 
 	<link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 
   </head>
 
@@ -40,7 +39,7 @@
           <div class="inner cover">
             <h1 class="cover-heading">Bienvenido</h1>
             <p class="lead">
-	             A la Demo de la Nueva Web del Hospital de la Fuerza Aerea.
+	             A una Demo usando la arquitectura Spring MVC, Security y Mybatis.
              </p>
             <p class="lead">
               <a href="<c:url value="/login" />" class="btn btn-lg btn-default">Inicia Sesión para continuar</a>
